@@ -56,7 +56,7 @@ inquirer.prompt([{
                 message: "Select the maximum popularity of the songs (0-100):",
                 default: 100,
                 validate: (input) => {
-                    if(input < 0 || input > 100) 
+                    if(input < 0 || input > 100)
                         return "Please enter a number between 0 and 100";
                     else 
                         return true;
