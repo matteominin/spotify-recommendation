@@ -5,10 +5,11 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+dotenv.config("/.env");
 
-
-let client_id = '15dfb3c2234c4f3e8ddf28975f5cdf7a'; // Your client id
-let client_secret = 'cdfd8a548f4a4ddf83c20e8e84fbf726'; // Your secret
+let CLIENT_ID = process.env['CLIENT_ID']; // Your client id
+let CLIENT_SECRET = process.env['CLIENT_SECRET']; // Your secret
 let redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 let stateKey = 'spotify_auth_state user-read-private user-read-email playlist-read-private playlist-read-collaborative';
 
@@ -40,7 +41,7 @@ Router.get('/login', function(req, res) {
     res.redirect('https://accounts.spotify.com/authorize?' +
       querystring.stringify({
         response_type: 'code',
-        client_id: client_id,
+        client_id: CLIENT_ID,
         scope: scope,
         redirect_uri: redirect_uri,
         state: state
@@ -71,7 +72,7 @@ Router.get('/callback', function(req, res) {
           grant_type: 'authorization_code'
         },
         headers: {
-          'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+          'Authorization': 'Basic ' + (new Buffer(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64'))
         },
         json: true
       };
@@ -105,7 +106,7 @@ Router.get('/callback', function(req, res) {
     let refresh_token = req.query.refresh_token;
     let authOptions = {
       url: 'https://accounts.spotify.com/api/token',
-      headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
+      headers: { 'Authorization': 'Basic ' + (new Buffer(CLIENT_ID + ':' + CLIENT_SECRET).toString('base64')) },
       form: {
         grant_type: 'refresh_token',
         refresh_token: refresh_token
