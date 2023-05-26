@@ -12,7 +12,7 @@ async function getTopTracks(TOKEN) {
     return null;
 }
 
-export async function getRecommended(tracks, max_popularity, TOKEN) {
+async function getRecommended(tracks, max_popularity, TOKEN) {
     let url = `https://api.spotify.com/v1/recommendations?max_popularity=${max_popularity}&limit=3&seed_tracks=`;
     tracks.forEach(elem => { url += elem + "," });
     url = url.slice(0, -1);
@@ -29,7 +29,7 @@ export async function getRecommended(tracks, max_popularity, TOKEN) {
         throw "Error, can't load recommendations. Please try again.";
 }
 
-export async function getUserId(TOKEN) {
+async function getUserId(TOKEN) {
     const res = await fetch("https://api.spotify.com/v1/me", {
         headers: {
             Authorization: "Bearer " + TOKEN
@@ -42,7 +42,7 @@ export async function getUserId(TOKEN) {
         throw "Error, can't find user. Please try again.";
 }
 
-export async function getPlaylistList(TOKEN) {
+async function getPlaylistList(TOKEN) {
     const res = await fetch("https://api.spotify.com/v1/me/playlists", {
         headers: {
             Authorization: "Bearer " + TOKEN
@@ -55,7 +55,7 @@ export async function getPlaylistList(TOKEN) {
         throw "\n Error, can't load playlists. Please try again.\n";
 }
 
-export async function getPlaylistSongs(id, TOKEN) {
+async function getPlaylistSongs(id, TOKEN) {
     const res = await fetch(`https://api.spotify.com/v1/playlists/${id}`, {
         headers: {
             Authorization: "Bearer " + TOKEN
@@ -67,3 +67,5 @@ export async function getPlaylistSongs(id, TOKEN) {
     else
         throw "Error, can't find playlist. Please try again.";
 }
+
+module.exports = { getTopTracks, getRecommended, getUserId, getPlaylistList, getPlaylistSongs }

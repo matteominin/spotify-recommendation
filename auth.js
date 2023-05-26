@@ -1,12 +1,9 @@
-import express from "express";
-import request from 'request';
-import querystring from 'querystring';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import dotenv from 'dotenv';
-dotenv.config("/.env");
+const express = require('express');
+const request = require('request');
+const querystring = require('querystring');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const dotenv = require('dotenv').config(__dirname + "/.env");
 
 let CLIENT_ID = process.env['CLIENT_ID']; // Your client id
 let CLIENT_SECRET = process.env['CLIENT_SECRET']; // Your secret
@@ -15,8 +12,6 @@ let stateKey = 'spotify_auth_state user-read-private user-read-email playlist-re
 let tok = ''
 
 const Router = express.Router();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 let generateRandomString = function(length) {
     let text = '';
@@ -129,7 +124,8 @@ Router.get('/callback', function(req, res) {
     });
 });
 
+function getToken() {
+  return tok;
+}
 
-
-export default Router;
-export { tok };
+module.exports = {loginRoutes: Router, getToken};

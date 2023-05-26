@@ -1,15 +1,21 @@
-import loginRoutes from './auth.js'
-import express from 'express';
-import { getPlaylistList, getPlaylistSongs, getRecommended } from './apiFunctions.js';
-import { apiKey, goBack, openBrowserPrompt, playlistPrompt, popularityPrompt, songPrompt } from './prompt.js';
+const {loginRoutes} = require('./auth.js');
+const express = require('express')
+const { getPlaylistList, getPlaylistSongs, getRecommended } = require('./apiFunctions.js');
+const { apiKey, goBack, openBrowserPrompt, playlistPrompt, popularityPrompt, songPrompt } = require('./prompt.js');
 
 //remove fetch warning
 process.removeAllListeners('warning')
 console.clear()
 
-const app = express();
+const app = express()
 app.use(loginRoutes)
-const server = app.listen(8888);
+let server;
+
+try {
+    server = app.listen(8888)
+} catch (error) {
+    console.log(error)
+}
 
 (async () => {
     //Get token and close express server
