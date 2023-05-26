@@ -12,6 +12,7 @@ let CLIENT_ID = process.env['CLIENT_ID']; // Your client id
 let CLIENT_SECRET = process.env['CLIENT_SECRET']; // Your secret
 let redirect_uri = 'http://localhost:8888/callback'; // Your redirect uri
 let stateKey = 'spotify_auth_state user-read-private user-read-email playlist-read-private playlist-read-collaborative';
+let tok = ''
 
 const Router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
@@ -87,6 +88,10 @@ Router.get('/callback', function(req, res) {
             headers: { 'Authorization': 'Bearer ' + access_token },
             json: true
           };
+
+          request.get(options, function(error, response, body) {
+            tok = access_token;
+          });
   
           // we can also pass the token to the browser to make requests from there
           res.send(access_token)
@@ -127,3 +132,4 @@ Router.get('/callback', function(req, res) {
 
 
 export default Router;
+export { tok };
