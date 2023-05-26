@@ -52,7 +52,7 @@ export async function getPlaylistList(TOKEN) {
     if(res.status == 200) 
         return await res.json();
     else
-        throw "Error, can't load playlists. Please try again.";
+        throw "\n Error, can't load playlists. Please try again.\n";
 }
 
 export async function getPlaylistSongs(id, TOKEN) {
